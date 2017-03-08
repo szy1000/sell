@@ -1,0 +1,17 @@
+//@import "common/scss/minxin.scss";
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){
+	.border-1px{
+		&:after{
+			transform: scaleY(.7);
+		}
+	}
+}
+
+@media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3){
+	.border-1px{
+		&:after{
+			transform: scaleY(.5);
+		}
+	}
+}
