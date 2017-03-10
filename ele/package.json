@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue src test/e2e/specs"
   },
   "dependencies": {
+    "eventsource-polyfill": "^0.9.6",
     "lodash": "^4.17.4",
     "lodash.assign": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",

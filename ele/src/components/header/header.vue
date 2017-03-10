@@ -13,9 +13,13 @@
     			{{seller.description}}/{{seller.deliveryTime}}分钟送达
     		</div>
     		<div v-if="seller.supports" class="support">
-    			<span class="icon"></span>
+    			<span class="icon" :class="classMap[seller.supports[0].type]"></span>
     			<span class="text">{{ seller.supports[0].description}}</span>
     		</div>
+    	</div>
+    	<div v-if="seller.supports" class="supports-count">
+    		<span class="count">{{seller.supports.length}}个</span>
+    		<i class="iconfont icon-keyboard_arrow_right"></i>
     	</div>
     </div>
     <div class="bullentin-wrapper">
@@ -30,6 +34,9 @@
 			seller:{
 				type: Object
 			}
+		},
+		created() {
+			this.classMap = ['decrease','discount','guarantee','invoice','special']
 		}
 	}
 </script>
@@ -41,11 +48,13 @@
 		color:#fff;
 		background:#000;
 		.content-wrapper{
+			position: relative;
 			padding: 24px 12px 18px 24px;
 			font-size:0;
 			.avatar{
 				display:inline-block;
-				border-radius:4px;
+				border-radius:2px;
+				vertical-align:top;
 				overflow:hidden;
 			}
 		}
@@ -70,6 +79,61 @@
 				font-size: 16px;
 				font-weight:bold;
 				line-height:18px;
+			}
+			.description{
+				margin-bottom:10px;
+				line-height:12px;
+				font-size:12px
+			}
+			.support{
+				.icon{
+					display:inline-block;
+					margin-right:4px;
+					width:12px;
+					height:12px;
+					background-size: 12px 12px;
+					background-repeat: no-repeat;
+					&.decrease{
+						@include bg-images('decrease_1');
+					}
+					&.discount{
+						@include bg-images('discount_1');
+					}
+					&.guarantee{
+						@include bg-images('guarantee_1');
+					}
+					&.invoice{
+						@include bg-images('invoice_1');
+					}
+					&.special{
+						@include bg-images('special_1');
+					}
+				}
+				.text{
+					line-height:12px;
+					font-size: 10px;
+					vertical-align:top;
+				}
+			}
+		}
+
+		.supports-count{
+			position: absolute;
+			right:12px;
+			bottom:14px;
+			padding:0 8px;
+			line-height:24px;
+			border-radius:14px;
+			background:rgba( 255, 255, 255, 0.2);
+			text-align:center;
+			.count{
+				vertical-align:top;
+				font-size:10px;
+			}
+			.icon-keyboard_arrow_right{
+				margin-left:2px;
+				line-height:24px;
+				font-size:10px;
 			}
 		}
 	}

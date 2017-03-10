@@ -56,7 +56,7 @@
 
 <style lang="scss">
   @import './common/scss/mixin.scss';
-//  @import './common/scss/common.scss';
+ // @import './common/scss/common.scss';
   .tab{
     display: flex;
     width: 100%;
