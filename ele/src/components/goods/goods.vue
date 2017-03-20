@@ -1,8 +1,8 @@
 <template>
-	<div class="goods">
+	<div class="goods" >
 		<div class="menu-wrapper" ref="menuWrapper">
 			<ul>
-				<li v-for="(item,index) in goods" class="menu-item" :class="{ 'current': currentIndex === index}">
+				<li v-for="(item,index) in goods" class="menu-item" :class="{ 'current': currentIndex === index}" @click="selectMenu(index,$event)">
 					<span class="text">
 						<span class="icon" v-show="item.type>0" :class="classMap[item.type]"></span>
 						{{item.name}}
@@ -36,11 +36,13 @@
 				</li>
 			</ul>
 		</div>
+		<shopcart></shopcart>
 	</div>
 </template>
 
 <script>
-	import BScroll from 'better-scroll'
+	import BScroll from 'better-scroll';
+	import shopcart from '../../components/shopcart/shopcart.vue'
 	const ERR_OK = 0;
 
 	export default {
@@ -61,7 +63,7 @@
 				for(let i=0 ;i<this.listHeight.length;i++){
 					let height1 = this.listHeight[i];
 					let height2 = this.listHeight[i+1];
-					if(!height2 || (this.scrollY >= height1 && this.scroll < height2)){
+					if(!height2 || (this.scrollY >= height1 && this.scrollY < height2)){
 						return i;
 					}
 				}
@@ -84,7 +86,9 @@
 		},
 		methods: {
 			_initScroll(){
-				this.menuScroll = new BScroll(this.$refs.menuWrapper,{});
+				this.menuScroll = new BScroll(this.$refs.menuWrapper,{
+					click: true
+				});
 
 				this.foodScroll = new BScroll(this.$refs.foodWrapper,{
 					probeType: 3
@@ -99,10 +103,21 @@
 				this.listHeight.push(height);
 				for(let i=0 ; i<foodList.length;i++){
 					let item = foodList[i];
-					height+=item.clientHeight;
+					height += item.clientHeight;
 					this.listHeight.push(height);
 				}
-			}
+			},
+			selectMenu(index,event){
+				if(!event._constructed){
+					return;
+				}
+				let foodList = this.$refs.foodWrapper.getElementsByClassName("food-list-hook");
+				let el = foodList[index];
+				this.foodScroll.scrollToElement(el,300);
+			},
+		},
+		components:{
+			shopcart
 		}
 	}
 </script>
