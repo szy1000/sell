@@ -28,7 +28,9 @@
     	<i class="iconfont icon-keyboard_arrow_right"></i>
     </div>
     <div class="background">
-    	<img :src="seller.avatar" alt="">
+    	<div class="overlay">
+    		<img :src="seller.avatar" alt="">
+    	</div>
     </div>
 		
 		<transition name="fade">
@@ -233,9 +235,12 @@
 			top:0;
 			width:100%;
 			height:100%;
-			overflow:hidden;
 			z-index:-1;
-			filter:blur(10px);
+			overflow:hidden;
+			.overlay{
+				height:100%;
+				filter:blur(10px);
+			}
 			img{
 				width:100%;
 			}
