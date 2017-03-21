@@ -1,7 +1,7 @@
 <template>
 	<div class="shopcart">
-		<div class="content">
-			<div class="content-left">
+		<div class="content" @click="toggleList">
+			<div class="content-left" >
 				<div class="logo-wrapper">
 					<div class="logo" :class="{'hightlight':totalCount > 0}">
 						<i class="iconfont icon-shopping_cart" :class="{'hightlight':totalCount > 0}"></i>
@@ -17,10 +17,42 @@
 				</div>
 			</div>
 		</div>
+		<div class="ball-container">
+			<div v-for="ball in balls" v-show="ball.show">
+				<transition name="drop">
+					<div class="inner">
+						
+					</div>
+				</transition>
+			</div>
+		</div>
+
+		<div class="shopcart-list" v-show="listShow">
+			<div class="list-header">
+				<h1 class="title">购物车</h1>
+				<span class="empty">清空</span>
+			</div>
+			<div class="list-content">
+				<ul>
+					<li class="food" v-for="food in selectFoods">
+						<span class="name">{{food.name}}</span>
+						<div class="price">
+							<span>￥{{food.price * food.count}}</span>
+						</div>
+						<div class="cartcontrol-wrapper">
+							<cartcontrol :food= "food"></cartcontrol>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
 	</div>
 </template>
 
 <script>
+	import cartcontrol from '../../components/cartcontrol/cartcontrol.vue'
+
   export default {
   	props:{
   		selectFoods: {
@@ -39,6 +71,35 @@
   		minPrice:{
   			type:Number,
   			default: 20
+  		},
+  	},
+  	components:{
+			cartcontrol
+		},
+  	data(){
+  		return {
+  			balls:[
+  				{ show : false },
+  				{ show : false },
+  				{ show : false },
+  				{ show : false },
+  				{ show : false },
+  			],
+  			fold: false
+  		}
+  	},
+  	methods: {
+  		drop(el){
+  			//暂未解决
+  			console.log(1);
+  			console.log(el);
+  		},
+
+  		toggleList() {
+  			if(!this.totalCount){
+  				return;
+  			}
+  			this.fold = !this.fold;
   		}
   	},
   	computed:{
@@ -72,6 +133,13 @@
   			}else{
   				return 'enough';
   			}
+  		},
+  		listShow(){
+  			if( !this.totalCount ){
+  				this.fold = true;
+  			}
+  			let show = !this.fold;
+  			return true;
   		}
   	}
   }
@@ -178,6 +246,33 @@
 					background: #00b43c;
 				}
 			}
+		}
+
+		.ball-container{
+			.ball{
+				position: fixed;
+				left:32px;
+				bottom:22px;
+				z-index:100;
+				.drop-enter-active, .drop-leave-active{
+					transition: all 0.5s linear;
+					transform: translate3D(0,0,0) rotate(0deg);
+					.inner{
+						width:16px;
+						height:16px;
+						border-radius:50%;
+						background: rgb(0,160,220);
+						transition: all .4s;
+					}
+				}
+			}
+		}
+
+		.shopcart-list{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width:100%;
 		}
 	}
 </style>
