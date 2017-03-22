@@ -1,3 +1,6 @@
+$gray-dark:              rgb(7,17,27);
+$gray-base:              rgb(147,153,159);
+
 @mixin border-1px($color){
 	position: relative;
 	&:after{

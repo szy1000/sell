@@ -60,7 +60,6 @@
 <script>
 	import BScroll from 'better-scroll';
 	import cartcontrol from '../../components/cartcontrol/cartcontrol.vue'
-
   export default {
   	props:{
   		selectFoods: {
@@ -102,9 +101,7 @@
   			console.log(1);
   			console.log(el);
   		},
-
   		toggleList() {
-  			console.log(this.fold);
   			if(!this.totalCount){
   				return;
   			}
@@ -163,14 +160,16 @@
   				return false;
   			}
   			let show = !this.fold;
-  			if(!show.scroll) {
+  			if(show) {
   				this.$nextTick( () => {
-  					this.scroll = new BScroll(this.$refs.listContent,{
-  						click : true
-  					})
+  					if(!this.scroll){
+	  					this.scroll = new BScroll(this.$refs.listContent,{
+	  						click : true
+	  					})
+  					}else{
+  						this.scroll.refresh();
+  					}
   				})
-  			}else{
-  				this.scroll.refresh();
   			}
   			return show;
   		}
@@ -180,7 +179,6 @@
 
 <style lang="scss" scoped>
 	@import '../../common/scss/mixin.scss';
-
 	.shopcart{
 		position: fixed;
 		left: 0;
@@ -262,7 +260,6 @@
 				font-size: 10px;
 			}
 		}
-
 		.content-right{
 			flex: 0 0 105px;
 			width:105px;
@@ -282,7 +279,6 @@
 				}
 			}
 		}
-
 		.ball-container{
 			.ball{
 				position: fixed;
@@ -302,7 +298,6 @@
 				}
 			}
 		}
-
 		.shopcart-list{
 			position: absolute;
 			bottom: 48px;
