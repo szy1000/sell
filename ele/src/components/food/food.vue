@@ -45,13 +45,14 @@
 									<span class="name">{{rating.username}}</span>
 									<img :src="rating.avatar" width="12" height="12" alt="" class="avatar">
 								</div>
-								<div class="time">{{rating.rateTime}}</div>
+								<div class="time">{{rating.rateTime | formatDate}}</div>
 								<p class="text">
 									<span :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down': rating.rateType===1}"></span>
 									{{rating.text}}
 								</p>
 							</li>
 						</ul>
+						<div class="no-rating" v-show="!food.ratings || !food.ratings.length">暂无评价</div>
 					</div>
 				</div>
 			</div>
@@ -62,6 +63,7 @@
 <script>
 	import BScroll from 'better-scroll';
 	import Vue from 'vue';
+	import {formatDate} from '../../common/js/date.js'
 	import cartcontrol from '../../components/cartcontrol/cartcontrol.vue'
 	import split from '../../components/split/split.vue'
 	import ratingselect from '../../components/ratingselect/ratingselect.vue'
@@ -72,6 +74,12 @@
 	 	props:{
 			food:{
 				type: Object
+				}
+			},
+			filters:{
+				formatDate(time){
+					let date = new Date(time);
+					return formatDate(date,'yyyy-MM-dd hh:mm')
 				}
 			},
 			components:{
@@ -136,6 +144,20 @@
 					}else{
 						return type === this.selectType;
 					}
+				}
+			},
+			events:{
+				'ratingtype.select'(type){
+					this.selectType = type;
+					this.$nextTick(() => {
+						this.scroll.refresh();
+					})
+				},
+				'content.toggle'(onlyContent){
+					this.onlyContent = onlyContent;
+					this.$nextTick(() => {
+						this.scroll.refresh();
+					})
 				}
 			}
 		}
@@ -318,6 +340,11 @@
 						}
 					}
 				}
+			}
+			.no-rating{
+				padding: 16px 0;
+				font-size: 12px;
+				color:rgb(147, 153, 159);
 			}
 		}
 	}
