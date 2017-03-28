@@ -18,28 +18,35 @@
         </router-link>
       </div>
     </div>
-    <router-view :seller="seller"></router-view>
+    <keep-alive>
+      <router-view :seller="seller" ></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
   import header from './components/header/header.vue'
-
+  import {urlParse} from './common/js/util'
+  import {store} from './common/js/store'
   const ERR_OK = 0;
 
   export default {
     data() {
       return {
         seller: {
-
+          id: (() => {
+            let queryPara = urlParse();
+            return queryPara.id;
+          })()
         }
       }
     },
     created() {
-      this.$http.get('./api/seller').then( respose => {
+      this.$http.get('./api/seller?id='+this.seller.id).then( respose => {
         respose = respose.body;
         if(respose.errno === ERR_OK ){
-          this.seller = respose.data;
+          // this.seller = respose.data;
+          this.seller = Object.assign({},this.seller,respose.data);
         }
       } , reject => {
         alert("error");
