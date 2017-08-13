@@ -6,7 +6,7 @@
 			</div>
 		</transition>
 		<div class="cart-count" v-show="food.count>0">
-		{{food.count}}
+		{{food.count}} 
 		</div>
 		<div class="cart-increase" @click.stop.prevent="addCart($event)">
 			<i class="iconfont icon-add_circle"></i>

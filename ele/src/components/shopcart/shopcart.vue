@@ -12,12 +12,14 @@
 					<div class="price" :class="{'hightlight':totalCount > 0}">{{totalPrice}}元</div>
 					<div class="desc">另需配送费￥{{deliveryPrice}}元</div>
 				</div>
+				
 				<div class="content-right" @click.stop.prevent="pay">
 					<div class="pay" :class="payClass">
 						{{payDesc}}
 					</div>
 				</div>
 			</div>
+
 			<div class="ball-container">
 				<div v-for="ball in balls" v-show="ball.show">
 					<transition name="drop">
@@ -50,6 +52,7 @@
 				</div>
 			</transition>
 		</div>
+
 		<transition name="fade">
 			<div class="list-mask" v-show="listShow" @click="hideList"></div>	
 		</transition>
@@ -154,6 +157,7 @@
   				return 'enough';
   			}
   		},
+
   		listShow() {
   			if( !this.totalCount ){
   				this.fold = true;
